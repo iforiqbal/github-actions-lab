@@ -14,9 +14,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Display custom message
+        run: echo "$CUSTOM_MESSAGE"
+
+
+
       # Step 2: List repository contents
       - name: List files
         run: ls -la
+
+      - name: Date
+        run: date
+
+      - name: memory usage
+        run: free -m
+
+      - name: available space
+        run: df -h
 
       # Step 3: Display system information
       - name: Show system info
@@ -25,9 +39,16 @@ jobs:
           echo "Operating System: $(uname -a)"
           echo "Current Directory: $(pwd)"
 
+          
+
       # Step 4: Check software versions
       - name: Check versions
         run: |
           echo "Node version: $(node --version)"
           echo "Python version: $(python --version)"
           echo "Git version: $(git --version)"
+
+
+      - name: Conditional step
+        if: github.event_name == 'push'
+        run: echo "This was triggered by a push event"
