@@ -9,46 +9,48 @@ on:
 jobs:
   basic-checkout:
     runs-on: ubuntu-latest
+    env:
+      CUSTOM_MESSAGE: "Hello from GitHub Actions!" # Define environment variable at the job level
     steps:
       # Step 1: Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # Step 2: Display custom message
       - name: Display custom message
         run: echo "$CUSTOM_MESSAGE"
 
-
-
-      # Step 2: List repository contents
+      # Step 3: List repository contents
       - name: List files
         run: ls -la
 
+      # Step 4: Display current date
       - name: Date
         run: date
 
-      - name: memory usage
+      # Step 5: Display memory usage
+      - name: Memory usage
         run: free -m
 
-      - name: available space
+      # Step 6: Display available disk space
+      - name: Available space
         run: df -h
 
-      # Step 3: Display system information
+      # Step 7: Display system information
       - name: Show system info
         run: |
           echo "Repository: $GITHUB_REPOSITORY"
           echo "Operating System: $(uname -a)"
           echo "Current Directory: $(pwd)"
 
-          
-
-      # Step 4: Check software versions
+      # Step 8: Check software versions
       - name: Check versions
         run: |
-          echo "Node version: $(node --version)"
-          echo "Python version: $(python --version)"
-          echo "Git version: $(git --version)"
+          echo "Node version: $(node --version || echo 'Node is not installed')"
+          echo "Python version: $(python --version || echo 'Python is not installed')"
+          echo "Git version: $(git --version || echo 'Git is not installed')"
 
-
+      # Step 9: Conditional step
       - name: Conditional step
         if: github.event_name == 'push'
         run: echo "This was triggered by a push event"
